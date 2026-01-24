@@ -19,7 +19,7 @@ allprojects {
 
     neoForgeModsToml {
         issueTrackerUrl = rootProject.mod_issues
-        mod(rootProject.mod_id) {
+        mod(rootProject.neo_mod_id) {
             version = project.version
             displayName = rootProject.mod_name
             description = rootProject.mod_description

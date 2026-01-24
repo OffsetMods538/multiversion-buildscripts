@@ -3,6 +3,8 @@ import org.codehaus.groovy.runtime.GStringImpl
 import java.nio.file.Files
 
 ext {
+    neo_mod_id = project.mod_id.replace('-', '_');
+
     versionPrefix = project.mod_version
     if (!Boolean.parseBoolean(System.getenv("IS_RELEASE"))) {
         String preReleaseVersion = System.currentTimeMillis()
