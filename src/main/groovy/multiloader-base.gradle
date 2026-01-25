@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-base.archivesName = "monkeylib538-${project.project_name}"
+base.archivesName = "${rootProject.mod_id}-${project.project_name}"
 version = project.project_name == project.name ? "${rootProject.versionPrefix}+${project.project_name}" : "${rootProject.versionPrefix}+${project.getParent().project_name}+${project.minecraft_version}"
 
 configurations {
