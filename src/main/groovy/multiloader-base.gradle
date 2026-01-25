@@ -1,6 +1,5 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
 base.archivesName = "${rootProject.mod_id}-${project.project_name}"
@@ -75,27 +74,4 @@ processResources {
 artifacts {
     commonJava sourceSets.main.java.sourceDirectories.singleFile
     commonResources sourceSets.main.resources.sourceDirectories.singleFile
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "OffsetMonkey538"
-            url = "https://maven.offsetmonkey538.top/releases"
-            credentials {
-                username = providers.gradleProperty("OffsetMonkey538Username").getOrElse(System.getenv("MAVEN_USERNAME"))
-                password = providers.gradleProperty("OffsetMonkey538Password").getOrElse(System.getenv("MAVEN_PASSWORD"))
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-    }
-    publications {
-        register("maven", MavenPublication) {
-            artifactId base.archivesName.get()
-            groupId "top.offsetmonkey538.monkeylib538"
-            from components.java
-        }
-    }
 }
