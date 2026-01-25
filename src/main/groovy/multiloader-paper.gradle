@@ -20,7 +20,7 @@ allprojects {
     }
 
     paperPluginYaml {
-        name = rootProject.mod_name
+        name = rootProject.mod_name.replace(' ', '_')
         description = rootProject.mod_description
         website = rootProject.mod_website
         apiVersion = outlet.mcVersions().first()
