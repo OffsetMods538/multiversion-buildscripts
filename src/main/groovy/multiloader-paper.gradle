@@ -60,13 +60,15 @@ subprojects {
         commonJava project(path: ":loader:paper", configuration: "commonJava")
         commonResources project(path: ":loader:paper", configuration: "commonResources")
     }
-    tasks.build.dependsOn(shadowJar)
 
     tasks.named("shadowJar") {
+        archiveClassifier.set("")
         from(rootProject.file("LICENSE")) {
             rename { "${it}" }
         }
     }
+    tasks.build.dependsOn(shadowJar)
+    tasks.jar.enabled = false
 
     tasks.runServer {
         minecraftVersion project.minecraft_version
