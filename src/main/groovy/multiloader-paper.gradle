@@ -36,6 +36,10 @@ allprojects {
         }
     }
 
+    configurations {
+        include
+    }
+
     dependencies {
         compileOnly project(":common")
         commonJava project(path: ":common", configuration: "commonJava")
@@ -63,6 +67,7 @@ subprojects {
     tasks.build.dependsOn(shadowJar)
 
     tasks.named("shadowJar") {
+        configurations = [project.configurations.include]
         from(rootProject.file("LICENSE")) {
             rename { "${it}" }
         }
