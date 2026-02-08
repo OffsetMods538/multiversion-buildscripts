@@ -3,7 +3,6 @@ plugins {
     id 'net.neoforged.moddev'
     id 'xyz.jpenilla.resource-factory-neoforge-convention'
     id 'io.github.dexman545.outlet' apply false
-    id 'com.modrinth.minotaur' apply false
 }
 
 neoForge {
@@ -62,9 +61,6 @@ allprojects {
 subprojects {
     apply plugin: "net.neoforged.moddev"
     apply plugin: "io.github.dexman545.outlet"
-    apply plugin: "com.modrinth.minotaur"
-
-    tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 
     outlet {
         mcVersionRange = project.supported_minecraft_versions
@@ -118,37 +114,5 @@ subprojects {
                 logLevel = org.slf4j.event.Level.INFO
             }
         }
-    }
-
-    modrinth {
-        // Main properties
-        token = System.getenv("MODRINTH_TOKEN")
-        projectId = rootProject.mod_id
-        gameVersions = outlet.mcVersions()
-        loaders = ["neoforge"]
-
-
-        // Version stuff
-        def customVersionName = System.getenv("VERSION_NAME")
-        if (customVersionName != null) versionName = customVersionName
-
-        versionNumber = "${project.version}"
-
-        def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-        versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
-
-        if (project.mod_version.contains("beta")) versionType = "beta"
-        if (project.mod_version.contains("alpha")) versionType = "alpha"
-
-
-        // Files
-        uploadFile = jar.archiveFile
-        additionalFiles = [sourcesJar.archiveFile]
-
-
-        // Project info
-        syncBodyFrom = rootProject.file("README.md").text
-        def changelogEnv = System.getenv("VERSION_CHANGELOG")
-        if (changelogEnv != null) changelog = changelogEnv
     }
 }

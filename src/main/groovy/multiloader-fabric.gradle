@@ -3,7 +3,6 @@ plugins {
     id 'fabric-loom'
     id 'xyz.jpenilla.resource-factory-fabric-convention'
     id 'io.github.dexman545.outlet' apply false
-    id 'com.modrinth.minotaur' apply false
 }
 
 loom {
@@ -59,9 +58,6 @@ allprojects {
 
 subprojects {
     apply plugin: "io.github.dexman545.outlet"
-    apply plugin: "com.modrinth.minotaur"
-
-    tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 
     configurations {
         includeRuntime
@@ -106,37 +102,5 @@ subprojects {
                 ideConfigGenerated(true)
             }
         }
-    }
-
-    modrinth {
-        // Main properties
-        token = System.getenv("MODRINTH_TOKEN")
-        projectId = rootProject.mod_id
-        gameVersions = outlet.mcVersions()
-        loaders = ["fabric"]
-
-
-        // Version stuff
-        def customVersionName = System.getenv("VERSION_NAME")
-        if (customVersionName != null) versionName = customVersionName
-
-        versionNumber = "${project.version}"
-
-        def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
-        versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
-
-        if (project.mod_version.contains("beta")) versionType = "beta"
-        if (project.mod_version.contains("alpha")) versionType = "alpha"
-
-
-        // Files
-        uploadFile = remapJar.archiveFile
-        additionalFiles = [sourcesJar.archiveFile]
-
-
-        // Project info
-        syncBodyFrom = rootProject.file("README.md").text
-        def changelogEnv = System.getenv("VERSION_CHANGELOG")
-        if (changelogEnv != null) changelog = changelogEnv
     }
 }

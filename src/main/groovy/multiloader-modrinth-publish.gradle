@@ -1,0 +1,40 @@
+plugins {
+    id 'io.github.dexman545.outlet' apply true
+    id 'com.modrinth.minotaur' apply true
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
+modrinth {
+    debugMode = Boolean.parseBoolean(System.getenv("MODRINTH_DEBUG"))
+
+    // Main properties
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = rootProject.mod_id
+    gameVersions = outlet.mcVersions()
+
+
+    // Version stuff
+    def customVersionName = System.getenv("VERSION_NAME")
+    if (customVersionName != null) versionName = customVersionName
+
+    versionNumber = "${project.version}"
+
+    def isPreRelease = System.getenv("VERSION_IS_PRERELEASE")
+    versionType = Boolean.parseBoolean(isPreRelease) ? "beta" : "release"
+
+    if (project.mod_version.contains("beta")) versionType = "beta"
+    if (project.mod_version.contains("alpha")) versionType = "alpha"
+
+
+    // Files
+    additionalFiles = [sourcesJar]
+
+
+    // Project info
+    syncBodyFrom = rootProject.file("README.md").text
+    def changelogEnv = System.getenv("VERSION_CHANGELOG")
+    if (changelogEnv != null) changelog = changelogEnv
+
+    autoAddDependsOn = false
+}
