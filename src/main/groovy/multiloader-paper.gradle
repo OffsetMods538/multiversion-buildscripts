@@ -15,7 +15,7 @@ allprojects {
 
     outlet {
         maintainPropertiesFile = false
-        mcVersionRange = "*"
+        mcVersionRange = project.hasProperty("supported_minecraft_versions") ? project.findProperty("supported_minecraft_versions") : "*"
     }
 
     paperPluginYaml {
@@ -54,10 +54,6 @@ subprojects {
     apply plugin: "com.gradleup.shadow"
     apply plugin: "xyz.jpenilla.run-paper"
     apply plugin: "io.github.dexman545.outlet"
-
-    outlet {
-        mcVersionRange = project.supported_minecraft_versions
-    }
 
     dependencies {
         compileOnly project(":loader:paper")
